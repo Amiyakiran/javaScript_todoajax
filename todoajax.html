@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoAjax</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Bebas+Neue&family=Courgette&family=Crimson+Text&family=Lexend&family=Lumanosimo&family=Marck+Script&family=Merriweather:ital@0;1&family=Mukta:wght@300&family=Noto+Sans+JP:wght@200&family=Oxygen&family=Playfair+Display+SC&family=Quicksand:wght@300;600&family=REM&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body style="background-image: url(https://img.freepik.com/premium-photo/plain-blue-red-yellow-green-perple-brown-pink-white-water-leaf-color-background_136558-9619.jpg); ">
+    <div class="container">
+        <div class="row">
+            <h1 class="mt-5 text-center text-light" style="font-family: 'Courgette', cursive;">Todo list</h1>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <table class="text-center border-light border-3 table-bordered w-100 mb-4 text-light">
+                    <thead >
+                        <tr>
+                            <th class="p-3">UserId</th>
+                            <th class="p-3">Id</th>
+                            <th class="p-3">Tittle</th>
+                            <th class="p-3">Completed</th>
+                        </tr>
+                    </thead>
+                    <tbody id="result">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</body>
+<script>
+    //ajax: make use of the class xmlhttpRequest class
+
+    //1.create a object for xmlhttpRequest
+    const http = new XMLHttpRequest()
+    //2.open a connection to api - for that we need to use the method open
+    http.open('get','https://jsonplaceholder.typicode.com/todos')
+    //3. to send request - send method will return void
+    http.send()
+     console.log(http.readyState);
+    //to check the ready state -  initil value will be 1, it need to change to 4 to get the response
+    http.onreadystatechange = ()=>{
+        console.log(http.readyState);
+        if(http.readyState===4){
+            if(http.status>=200 && http.status<300){
+                //response come in responseText property of http obj
+                console.log(http.responseText);//json content is not understood directly that is why nothing(means object or array etc not mention just fetched the data) in the console is show 
+
+                let alltodo = JSON.parse(http.responseText)
+                console.log(alltodo);// array with 200 items
+                alltodo.forEach(item => {
+                    result.innerHTML += `<tr>
+                        <td>${item.userId}</td>
+                        <td>${item.id}</td>
+                        <td>${item.title}</td>
+                        <td>${item.completed}</td>
+                        </tr>`
+                });
+                 
+            }
+            else{
+                console.log('cannot fetch data'); 
+            }
+        }
+        else{
+            console.log('cannot fetch data');
+        }
+    }
+
+    
+
+</script>
+</html>
+
+
+
+
+
+
+
+
+
